@@ -11,6 +11,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Textarea from "@mui/joy/Textarea";
 import "./modelstyles.css"
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -27,90 +28,37 @@ const style = {
   overflowY: "auto",
 };
 
-export default function EditMarriageCertificateModel({
-  editcertificate,
-  setEditCertificate,
-  data,
-  fetchData
-}) {
+const EditMarriageCertificateModel=({editcertificate,setEditCertificate,data,fetchData}) => {
+  const navigate = useNavigate()
   console.log("data", data)
   // const router = useRouter();
   const { saveData } = useSaveData();
-  const [textArea, setTextArea] = useState(
-    data.textArea ? data.textArea : ""
-  );
-  const [placeOfMarriage, setPlaceOfMarriage] = useState(
-    data.placeOfMarriage ? data.placeOfMarriage : ""
-  );
-  const [dateofmarriage, setDateOfMarriage] = useState(
-    data.dateofmarriage ? data.dateofmarriage : ""
-  );
-  const [groomChristianName, setGroomChristianName] = useState(
-    data.groomChristianName ? data.groomChristianName : ""
-  );
-  const [groomsurName, setGroomSurName] = useState(
-    data.groomsurName ? data.groomsurName : ""
-  );
-  const [groomage, setGroomAge] = useState(
-    data.groomage ? data.groomage : ""
-  );
-  const [groomcondition, setGroomCondition] = useState(
-    data.groomcondition ? data.groomcondition : ""
-  );
-  const [groomrank, setGroomRank] = useState(
-    data.groomrank ? data.groomrank : ""
-  );
-  const [groomresidence, setGroomResidence] = useState(
-    data.groomresidence ? data.groomresidence : ""
-  );
-  const [groomfatherName, setGroomFatherName] = useState(
-    data.groomfatherName ? data.groomfatherName : ""
-  );
-  const [groommotherName, setGroomMotherName] = useState(
-    data.groommotherName ? data.groommotherName : ""
-  );
-  const [groomfirstWitness, setGroomFirstWitness] = useState(
-    data.groomfirstWitness ? data.groomfirstWitness : ""
-  );
-  const [groomsecondWitness, setGroomSecondWitness] = useState(
-    data.groomsecondWitness ? data.groomsecondWitness : ""
-  );
-  const [brideChristianName, setBrideChristianName] = useState(
-    data.brideChristianName ? data.brideChristianName : ""
-  );
-  const [brideSurName, setBrideSurName] = useState(
-    data.brideSurName ? data.brideSurName : ""
-  );
-  const [brideage, setBrideAge] = useState(
-    data.brideage ? data.brideage : ""
-  );
-  const [brideCondition, setBrideCondition] = useState(
-    data.brideCondition ? data.brideCondition : ""
-  );
-  const [brideRank, setBrideRank] = useState(
-    data.brideRank ? data.brideRank : ""
-  );
-  const [brideResidence, setBrideResidence] = useState(
-    data.brideResidence ? data.brideResidence : ""
-  );
-  const [brideFatherName, setBrideFatherName] = useState(
-    data.brideFatherName ? data.brideFatherName : ""
-  );
-  const [brideMotherName, setBrideMotherName] = useState(
-    data.brideMotherName ? data.brideMotherName : ""
-  );
-  const [brideFirstWitness, setBrideFirstWitness] = useState(
-    data.brideFirstWitness ? data.brideFirstWitness : ""
-  );
-  const [brideSecondWitness, setBrideSecondWitness] = useState(
-    data.brideSecondWitness ? data.brideSecondWitness : ""
-  );
-  const [ceremony, setCeremony] = useState(
-    data.ceremony ? data.ceremony : ""
-  );
-  const [date, setDate] = useState(
-    data.date ? data.date : ""
-  );
+  const [textArea, setTextArea] = useState(data.textArea || "");
+  const [placeOfMarriage, setPlaceOfMarriage] = useState(data.placeOfMarriage || "");
+  const [dateofmarriage, setDateOfMarriage] = useState(data.dateofmarriage || "");
+  const [groomChristianName, setGroomChristianName] = useState(data.groomChristianName || "");
+  const [groomsurName, setGroomSurName] = useState(data.groomsurName || "");
+  const [groomage, setGroomAge] = useState(data.groomage || "");
+  const [groomcondition, setGroomCondition] = useState(data.groomcondition || "");
+  const [groomrank, setGroomRank] = useState(data.groomrank || "");
+  const [groomresidence, setGroomResidence] = useState(data.groomresidence || "");
+  const [groomfatherName, setGroomFatherName] = useState(data.groomfatherName || "");
+  const [groommotherName, setGroomMotherName] = useState(data.groommotherName || "");
+  const [groomfirstWitness, setGroomFirstWitness] = useState(data.groomfirstWitness || "");
+  const [groomsecondWitness, setGroomSecondWitness] = useState(data.groomsecondWitness || "");
+  const [brideChristianName, setBrideChristianName] = useState(data.brideChristianName || "");
+  const [brideSurName, setBrideSurName] = useState(data.brideSurName || "");
+  const [brideage, setBrideAge] = useState(data.brideage || "");
+  const [brideCondition, setBrideCondition] = useState(data.brideCondition || "");
+  const [brideRank, setBrideRank] = useState(data.brideRank || "");
+  const [brideResidence, setBrideResidence] = useState(data.brideResidence || "");
+  const [brideFatherName, setBrideFatherName] = useState(data.brideFatherName || "");
+  const [brideMotherName, setBrideMotherName] = useState(data.brideMotherName || "");
+  const [brideFirstWitness, setBrideFirstWitness] = useState(data.brideFirstWitness || "");
+  const [brideSecondWitness, setBrideSecondWitness] = useState(data.brideSecondWitness || "");
+  const [ceremony, setCeremony] = useState(data.ceremony || "");
+  const [date, setDate] = useState(data.date || "");
+  
   
 
 
@@ -145,23 +93,24 @@ export default function EditMarriageCertificateModel({
       id:data.id,
     };
     try {
-      const fileName = "MarriageCertificate.json";
       const response = await fetch('http://localhost/api/marriagec.php', {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          id: data.id,
-          updates
-        }),
+        body: JSON.stringify(updates),
       });
+  
       const result = await response.json();
-      console.log(result.message);
-      handleClose();
-      fetchData();
+      console.log('API response:', result); // Log the full response
+  
+      if (result.id) {
+        navigate(`/MarriageCertificate/${result.id}`);
+      } else {
+        console.error('Failed to get ID from response');
+      }
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     }
   };
 
@@ -580,3 +529,4 @@ export default function EditMarriageCertificateModel({
     </>
   );
 }
+export default EditMarriageCertificateModel;
