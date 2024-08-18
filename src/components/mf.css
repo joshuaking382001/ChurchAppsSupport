@@ -1,0 +1,118 @@
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  /* Show only the content inside the child container */
+  #printable-form, #printable-form * {
+    visibility: visible;
+  }
+
+  /* Ensure the child container takes up the full page */
+  #printable-form {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding:20px;
+     /* Removed non-breaking space */
+  }
+}
+
+.parent{
+  display: flex;
+  justify-content: center;
+}
+.wid{
+  width: 210mm; /* A4 width */
+  height: 297mm; /* A4 height */ 
+  padding:10px 40px 0px 40px;
+  text-align: left;
+  background: white;
+  color: #000;
+  }
+  table, th, td, tr {
+    border:1px solid black;
+    border-collapse: collapse;
+  }
+  
+  th{
+    height: 50px;
+    width:20%;
+  }
+  td{
+    height: 35px;
+    font-size:15px;
+  }
+  .head {
+    border-bottom: 6px double #333;
+    }
+    .kep {
+      border: none;
+      outline: none;
+      border-bottom: 1px solid black; 
+      width:90%;
+      text-align: center;
+    }
+    .kept {
+      border: none;
+      outline: none;
+      border-bottom: 1px solid black; 
+      width:97%;
+    }
+    input[type="text"] {
+      border: none;
+      outline: none;
+      border-bottom: 1px solid black; 
+      text-align: center;
+    }
+    .foot{
+      float:right;
+      border: none;
+      outline: none;
+      border-bottom: 1px solid black; 
+      width:70%;
+    }
+    
+    .cere{
+      text-align:center;
+    }
+    .date{
+      border: none;
+      outline: none;
+      border-bottom: 1px solid black; 
+      width:18%;
+    }
+    .parish{
+      
+    }
+    .fo{
+      text-align:center;
+    }
+    .fon{
+      float:right;
+    }
+    body {
+      background: rgb(204,204,204); 
+    }
+  
+    page {
+      background: white;
+      display: block;
+      margin: auto;
+      margin-bottom: 0.5cm;
+      box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    }
+    page[size="A4"] {  
+      width: 21cm;
+      height: 29.7cm; 
+    }
+    @media print {
+      body, page {
+        background: white;
+        margin: 0;
+        box-shadow: 0;
+      }
+    }
+  

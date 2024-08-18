@@ -1,0 +1,121 @@
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  /* Show only the content inside the child container */
+  #printable-form, #printable-form * {
+    visibility: visible;
+  }
+
+  /* Ensure the child container takes up the full page */
+  #printable-form {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding:0px;
+   
+  }
+}
+.before {
+  line-height: 2;
+}
+
+.parent{
+  display: flex;
+  justify-content: center;
+}
+
+input{
+  text-align: center;
+}
+.head {
+  border-bottom: 6px double #333;
+  line-height:0.8;
+}
+img {
+display: block;
+width:390px;
+}
+.foot {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+  width:70%;
+}
+.lab{
+  height:30px;
+  width:20%;
+}
+table{
+  
+  margin-left: auto;
+  margin-right: auto;
+  width:100%;
+}
+
+table,tr,td
+{
+    border: none;
+   padding-left:20px;
+}
+.line{
+  
+  border-right:3px solid black;
+  border-collapse: collapse;
+}
+.label{
+  height:30px;
+  width:20%;
+}
+.text{
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black; 
+  width:80%;
+}
+.imp{
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black; 
+  width:40%;
+}
+.foo {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black; 
+  width: 20%;
+}
+.parish{
+  float:right;
+  margin-right:25px;
+}
+.fon{
+  padding-left:80px;
+}
+
+
+body {
+  background: rgb(204,204,204); 
+}
+
+.page {
+  background: white;
+  display: block;
+  margin: auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+.page[size="A4"][layout="landscape"] {
+  width: 29.7cm;
+  height: 21cm;  
+}
+@media print {
+  body, page {
+    background: white;
+    
+    box-shadow: 0;
+  }
+}

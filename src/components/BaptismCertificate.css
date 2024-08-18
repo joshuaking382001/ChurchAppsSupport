@@ -1,0 +1,30 @@
+@media print {
+    body * {
+      visibility: hidden;
+    }
+  
+    /* Show only the content inside the child container */
+    #printable-form, #printable-form * {
+      visibility: visible;
+    }
+  
+    /* Ensure the child container takes up the full page */
+    #printable-form {
+      padding:20px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width:21cm;
+      height: 29.7cm;
+    }
+  }
+ table,tr,td{
+  border:none;
+ }
+
+    
+    
+    body {
+      background: rgb(204,204,204); 
+    }
+    

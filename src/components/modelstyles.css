@@ -1,0 +1,61 @@
+.keptAt{
+    display: grid;
+   grid-template-columns: auto auto;
+    /* justify-content: space-around; */
+    gap: 10px;
+    /* align-items: center; */
+    padding: 5px 0px 5px 0px;
+}
+
+.keptAtChilde{
+    display: flex;
+    flex-direction: column;
+    font-weight: normal;
+    gap: 10px;
+    /* align-items: center; */
+    padding: 5px 0px 5px 0px;
+}
+.input{ 
+  padding-left: 0.75rem; /* px-3 */
+  padding-right: 0.75rem; /* px-3 */
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem; /* py-2 */
+  border: 1px solid #d1d5db; /* border border-gray-300 */
+  border-radius: 0.5rem; /* rounded-lg */
+}
+.input:focus{
+    outline: none; /* focus:outline-none */
+  border-color: #3b82f6; /* focus:border-blue-500 */
+}
+.heading{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 3px;
+    color: blueviolet;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.keptAttextarea{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.textarea{
+    width: 100%;
+}
+.Tab{
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+}
+.Banns{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.Bannsparant{
+    display: flex;
+    flex-direction: column;
+}
