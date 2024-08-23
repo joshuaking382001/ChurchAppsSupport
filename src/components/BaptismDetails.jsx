@@ -6,47 +6,58 @@ import { useNavigate } from "react-router-dom";
 const BaptismDetails = ({ search, pickDate }) => {
   const navigate = useNavigate();
 
-   // Function to format date string or return current date
-   const formatDateForDisplay = (dateString) => {
-    if (!dateString) return dayjs().format('DD-MM-YYYY'); // Return current date if dateString is invalid or empty
+  const formatDateForDisplay = (dateString) => {
+    if (!dateString) return dayjs().format("DD-MM-YYYY");
     const [year, month, day] = dateString.split("-");
     if (day && month && year) {
       return `${day}-${month}-${year}`;
     }
-    return dayjs().format('DD-MM-YYYY'); // Default to current date if parsing fails
+    return dayjs().format("DD-MM-YYYY");
   };
 
   const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
-    let result = data;
+    const result = data.filter((val) => {
+      const dateField = formatDateForDisplay(val.date);
+      const selectedMonth = pickDate ? dayjs(pickDate).format("MM-YYYY") : "";
+      const formattedDate = dateField
+        ? dayjs(dateField, "DD-MM-YYYY").format("MM-YYYY")
+        : "";
 
-    // Filter by selected date (year and month)
-    if (pickDate) {
-      const selectedMonth = dayjs(pickDate).format("MM-YYYY");
-      result = result.filter((val) => {
-        const dateField = formatDateForDisplay(val.id);
-        if (dateField) {
-          const formattedDate = dayjs(dateField, 'DD-MM-YYYY').format("MM-YYYY");
-          return formattedDate === selectedMonth;
-        }
-        return false;
-      });
-    }
+      const matchesDate = selectedMonth ? formattedDate === selectedMonth : true;
+      const matchesSearch = search
+        ? val.name.toLowerCase().includes(search.toLowerCase())
+        : true;
+
+      return matchesDate && matchesSearch;
+    });
 
     setFilteredData(result);
-  }, [pickDate, data]);
+  }, [pickDate, search, data]);
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost/api/baptism.php');
+      const response = await fetch("http://localhost/api/baptism.php");
       const result = await response.json();
-      setData(result);
+  
+      console.log('API Response:', result); // Debugging line
+  
+      // Ensure the data is an array
+      const sortedData = Array.isArray(result) ? result : [];
+  
+      // Sort the data in descending order based on the id field
+      sortedData.sort((a, b) => b.id - a.id);
+  
+      setData(sortedData);
     } catch (error) {
       console.error("Failed to fetch data", error);
+      setData([]); // Fallback to an empty array in case of an error
     }
   };
+  
+  
 
   useEffect(() => {
     fetchData();
@@ -60,7 +71,7 @@ const BaptismDetails = ({ search, pickDate }) => {
     navigate(`/BaptismCertificate/${id}`);
   };
 
-  const handleEdit = async (data) => {
+  const handleEdit = (data) => {
     console.log("Edit data with ID:", data);
     setEditData(data);
     setEditBaptism(true);
@@ -72,14 +83,13 @@ const BaptismDetails = ({ search, pickDate }) => {
     );
     if (confirmDelete) {
       try {
-        await fetch('http://localhost/api/baptism.php', {
+        await fetch("http://localhost/api/baptism.php", {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ id }),
         });
-        // Remove deleted item from state
         setData(data.filter((item) => item.id !== id));
         setFilteredData(filteredData.filter((item) => item.id !== id));
       } catch (error) {
@@ -106,7 +116,7 @@ const BaptismDetails = ({ search, pickDate }) => {
                 <td className="py-2 px-4 border-b text-center">{idx + 1}</td>
                 <td className="py-2 px-4 border-b text-center">{val.name}</td>
                 <td className="py-2 px-4 border-b text-center">
-                  {formatDateForDisplay(val.id)}
+                  {formatDateForDisplay(val.date)}
                 </td>
                 <td className="py-2 px-4 border-b text-center">
                   <button

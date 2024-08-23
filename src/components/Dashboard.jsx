@@ -5,7 +5,8 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import img from "../app/img/logo.jpg";
+import logo from "../app/img/logo.png";
+import MarriageFormModel from "./FormModel"
 import MarriageCertificateModel from "./MarriageCertificateModel";
 import BaptismModel from "./BaptismModel";
 import EditMarriageCertificateModel from "./EditMarriageCertificateModel";
@@ -18,9 +19,6 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-import EditFormModel from "./EditFormModel";
-import MarriageFormModel from "./FormModel";
 
 const style = {
   position: "absolute",
@@ -47,7 +45,7 @@ export default function Dashboard() {
   const [editmarriagecertificate, setEditMarriageCertificate] = useState(false);
   const [editdata, setEditData] = useState();
   const [search, setSearch] = useState("");
-  const [pickDate, setPickDate] = useState(null);
+  const [pickDate, setPickDate] = useState();
 
   const renderPage = () => {
     switch (tabActive) {
@@ -67,7 +65,6 @@ export default function Dashboard() {
   const handleChange = (event) => {
     const selectedOption = event.target.value;
     setOption(selectedOption);
-    setOpen(false);
     switch (selectedOption) {
       case "MarriageCertificate":
         setMarriage(true);
@@ -84,52 +81,56 @@ export default function Dashboard() {
       default:
         break;
     }
+    setOpen(false);
   };
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <main>
-      <div className="container mx-auto p-5 text-black bg-white mt-0">
-        <h1 className="text-2xl text-black font-bold mb-4 float-left">
-          St. Antony's Church
-        </h1>
-        <img src={img} className="h-20 pl-8 w-28" alt="logo" />
-        <button
-          className="float-right bg-blue-500 text-white px-2 py-1 rounded mr-2"
-          onClick={() => setOpen(true)}
-        >
-          Add New
-        </button>
-        <div className="flex items-center justify-between p-2 w-[50%]">
-          <div className="border border-gray-300 rounded-lg">
+      <div className="container mx-auto p-4 text-black bg-white ">
+        <div className="flex items-center mb-4">
+          <img src={logo} alt="Logo" className="h-32 w-36" />
+          <h1 className="text-5xl font-bold text-black ml-4">St. Antony's Church</h1>
+          <button
+            className="ml-auto bg-blue-500 text-white px-2 py-1 rounded"
+            onClick={handleOpen}
+          >
+            Add New
+          </button>
+        </div>
+        <div className="flex items-center justify-between p-2">
+          <div className="rounded-lg flex-grow">
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search Name..."
-              className="px-3 py-2 border-none rounded-lg focus:outline-none"
+              className="px-3 py-2 border-none rounded-lg w-2/5 focus:outline-none"
             />
           </div>
-          <div>
+          <div className="ml-4">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
                 <DatePicker
                   label='"month" and "year"'
                   views={["month", "year"]}
                   value={pickDate}
-                  onChange={(date) => setPickDate(date)}
+                  onChange={(e) => setPickDate(e)}
                 />
               </DemoContainer>
             </LocalizationProvider>
           </div>
         </div>
 
-        <div className="flex gap-[10px] justify-center">
-          {tabs.map((val) => (
+        <div className="flex gap-2 justify-center mt-4">
+          {tabs.map((val, idx) => (
             <button
-              key={val}
+              key={idx}
               onClick={() => setTabActive(val)}
-              className={`border-black rounded-xl p-4 text-black px-2 py-1 mb-5 mr-2 ${
-                val === tabActive ? "bg-blue-300 text-black" : ""
+              className={`border rounded-xl p-2 mb-5 ${
+                val === tabActive ? "bg-blue-300 text-black" : "text-black"
               }`}
             >
               {val}
@@ -141,16 +142,16 @@ export default function Dashboard() {
 
       <Modal
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <FormControl className="w-64">
-            <InputLabel id="demo-simple-select-label">Select Type</InputLabel>
+          <FormControl fullWidth>
+            <InputLabel id="select-type-label">Select Type</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              labelId="select-type-label"
+              id="select-type"
               value={option}
               label="Select Page"
               onChange={handleChange}
@@ -171,6 +172,7 @@ export default function Dashboard() {
           setMarriage={setMarriage}
         />
       )}
+
       {editdata && (
         <EditMarriageCertificateModel
           editmarriagecertificate={editmarriagecertificate}
@@ -178,20 +180,26 @@ export default function Dashboard() {
           editData={editdata}
         />
       )}
+
       {baptismModel && (
         <BaptismModel
           baptismModel={baptismModel}
           setBaptismModel={setBaptismModel}
         />
       )}
+
       {marriageForm && (
         <MarriageFormModel
           marriageForm={marriageForm}
           setMarriageForm={setMarriageForm}
         />
       )}
+
       {letterPad && (
-        <LetterPadModel letterPad={letterPad} setLetterPad={setLetterPad} />
+        <LetterPadModel
+          letterPad={letterPad}
+          setLetterPad={setLetterPad}
+        />
       )}
     </main>
   );

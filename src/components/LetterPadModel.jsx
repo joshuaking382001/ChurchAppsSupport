@@ -24,6 +24,7 @@ const LetterPadModel = ({ letterPad, setLetterPad }) => {
   const [fontSize, setFontSize] = useState('16px');
   const [textAlign, setTextAlign] = useState('left');
   const [textarea, setTextArea] = useState('');
+  const [date, setDate] = useState('');
   const handleClose = () => setLetterPad(false);
   const navigate = useNavigate();
 
@@ -35,6 +36,7 @@ const LetterPadModel = ({ letterPad, setLetterPad }) => {
       fontSize,
       textAlign,
       textarea,
+      date,
     };
 
     try {
@@ -135,6 +137,20 @@ const LetterPadModel = ({ letterPad, setLetterPad }) => {
                 textAlign: textAlign,
               }}
             />
+            <label
+                      htmlFor="date"
+                      className="text-gray-700 font-bold mb-2 ml-2"
+                    >
+                      Date
+                    </label>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      className="input"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                    />
             <button
               type="submit"
               style={{ float: 'right', margin: '10px' }}

@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import EditFormModel from "./EditFormModel";
 import dayjs from "dayjs";
@@ -7,97 +6,107 @@ import { useNavigate } from "react-router-dom";
 const MarriageDetails = ({ search, pickDate }) => {
   const navigate = useNavigate();
 
-// Function to format date string or return current date
-const formatDateForDisplay = (dateString) => {
-  if (!dateString) return dayjs().format('DD-MM-YYYY'); // Return current date if dateString is invalid or empty
-  const [year, month, day] = dateString.split("-");
-  if (day && month && year) {
-    return `${day}-${month}-${year}`;
-  }
-  return dayjs().format('DD-MM-YYYY'); // Default to current date if parsing fails
-};
+  const formatDateForDisplay = (dateString) => {
+    if (!dateString) return dayjs().format("DD-MM-YYYY");
+    const [year, month, day] = dateString.split("-");
+    if (day && month && year) {
+      return `${day}-${month}-${year}`;
+    }
+    return dayjs().format("DD-MM-YYYY");
+  };
 
-const [data, setData] = useState([]);
-const [filteredData, setFilteredData] = useState(data);
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
-useEffect(() => {
-  let result = data;
+  useEffect(() => {
+    const result = data.filter((val) => {
+      const dateField = formatDateForDisplay(val.date);
+      const selectedMonth = pickDate ? dayjs(pickDate).format("MM-YYYY") : "";
+      const formattedDate = dateField
+        ? dayjs(dateField, "DD-MM-YYYY").format("MM-YYYY")
+        : "";
 
-  // Filter by selected date (year and month)
-  if (pickDate) {
-    const selectedMonth = dayjs(pickDate).format("MM-YYYY");
-    result = result.filter((val) => {
-      const dateField = formatDateForDisplay(val.id);
-      if (dateField) {
-        const formattedDate = dayjs(dateField, 'DD-MM-YYYY').format("MM-YYYY");
-        return formattedDate === selectedMonth;
-      }
-      return false;
+      const matchesDate = selectedMonth ? formattedDate === selectedMonth : true;
+      const matchesSearch = search
+        ? val.mr.toLowerCase().includes(search.toLowerCase())
+        : true;
+
+      return matchesDate && matchesSearch;
     });
-  }
 
-  setFilteredData(result);
-}, [pickDate, data]);
+    setFilteredData(result);
+  }, [pickDate, search, data]);
 
-const fetchData = async () => {
+  const fetchData = async () => {
   try {
-    const response = await fetch('http://localhost/api/marriageform.php');
+    const response = await fetch("http://localhost/api/marriageform.php");
     const result = await response.json();
-    setData(result);
+
+    console.log('API Response:', result); // Debugging line
+
+    // Ensure the data is an array
+    const sortedData = Array.isArray(result) ? result : [];
+
+    // Sort the data in descending order based on the id field
+    sortedData.sort((a, b) => b.id - a.id);
+
+    setData(sortedData);
   } catch (error) {
     console.error("Failed to fetch data", error);
+    setData([]); // Fallback to an empty array in case of an error
   }
 };
 
-useEffect(() => {
-  fetchData();
-}, []);
+  
 
-const [editMarriageForm, setEditMarriageForm] = useState(false);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const [editMarriageForm, setEditMarriageForm] = useState(false);
   const [editdata, setEditData] = useState();
 
-const handleView = (id) => {
-  console.log("View data with ID:", id);
-  navigate(`/MarriageForm/${id}`);
-};
+  const handleView = (id) => {
+    console.log("View data with ID:", id);
+    navigate(`/MarriageForm/${id}`);
+  };
 
-const handleEdit = async (data) => {
-  console.log("Edit data with ID:", data);
-  setEditData(data);
-  setEditMarriageForm(true);
-};
+  const handleEdit = (data) => {
+    console.log("Edit data with ID:", data);
+    setEditData(data);
+    setEditMarriageForm(true);
+  };
 
-const handleDelete = async (id) => {
-  const confirmDelete = window.confirm(
-    "Are you sure you want to delete this item?"
-  );
-  if (confirmDelete) {
-    try {
-      await fetch('http://localhost/api/marriageform.php', {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      });
-      // Remove deleted item from state
-      setData(data.filter((item) => item.id !== id));
-      setFilteredData(filteredData.filter((item) => item.id !== id));
-    } catch (error) {
-      console.error("Failed to delete data", error);
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (confirmDelete) {
+      try {
+        await fetch("http://localhost/api/marriageform.php", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        });
+        setData(data.filter((item) => item.id !== id));
+        setFilteredData(filteredData.filter((item) => item.id !== id));
+      } catch (error) {
+        console.error("Failed to delete data", error);
+      }
     }
-  }
-};
+  };
 
   return (
     <>
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b">Sl. No</th>
-            <th className="py-2 px-4 border-b">Name</th>
-            <th className="py-2 px-4 border-b">Date of Register</th>
-            <th className="py-2 px-4 border-b">Actions</th>
+            <th className="py-2 px-2 border-b">Sl. No</th>
+            <th className="py-2 px-2 border-b">Name</th>
+            <th className="py-2 px-2 border-b">Date of Register</th>
+            <th className="py-2 px-2 border-b">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -107,7 +116,7 @@ const handleDelete = async (id) => {
                 <td className="py-2 px-4 border-b text-center">{idx + 1}</td>
                 <td className="py-2 px-4 border-b text-center">{val.mr}</td>
                 <td className="py-2 px-4 border-b text-center">
-                  {formatDateForDisplay(val.id)}
+                  {formatDateForDisplay(val.date)}
                 </td>
                 <td className="py-2 px-4 border-b text-center">
                   <button
@@ -135,10 +144,10 @@ const handleDelete = async (id) => {
       </table>
       {editdata && (
         <EditFormModel
-          editMarriageForm={editMarriageForm}
-          setEditMarriageForm={setEditMarriageForm}
-          editdata={editdata}
-          fetchData={fetchData}
+        editMarriageForm={editMarriageForm}
+        setEditMarriageForm={setEditMarriageForm}
+        editdata={editdata}
+        fetchData={fetchData}
         />
       )}
     </>

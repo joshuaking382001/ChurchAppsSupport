@@ -26,7 +26,7 @@ const LetterPadDetails = ({ pickDate }) => {
     if (pickDate) {
       const selectedMonth = dayjs(pickDate).format("MM-YYYY");
       result = result.filter((val) => {
-        const dateField = formatDateForDisplay(val.id);
+        const dateField = formatDateForDisplay(val.date);
         if (dateField) {
           const formattedDate = dayjs(dateField, 'DD-MM-YYYY').format("MM-YYYY");
           return formattedDate === selectedMonth;
@@ -40,13 +40,25 @@ const LetterPadDetails = ({ pickDate }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost/api/letterpad.php');
+      const response = await fetch("http://localhost/api/letterpad.php");
       const result = await response.json();
-      setData(result);
+  
+      console.log('API Response:', result); // Debugging line
+  
+      // Ensure the data is an array
+      const sortedData = Array.isArray(result) ? result : [];
+  
+      // Sort the data in descending order based on the id field
+      sortedData.sort((a, b) => b.id - a.id);
+  
+      setData(sortedData);
     } catch (error) {
       console.error("Failed to fetch data", error);
+      setData([]); // Fallback to an empty array in case of an error
     }
   };
+  
+  
 
   useEffect(() => {
     fetchData();
@@ -104,7 +116,7 @@ const LetterPadDetails = ({ pickDate }) => {
               <tr key={idx}>
                 <td className="py-2 px-4 border-b text-center">{idx + 1}</td>
                 <td className="py-2 px-4 border-b text-center">
-                  {formatDateForDisplay(val.id)}
+                  {formatDateForDisplay(val.date)}
                 </td>
                 <td className="py-2 px-4 border-b text-center">
                   <button

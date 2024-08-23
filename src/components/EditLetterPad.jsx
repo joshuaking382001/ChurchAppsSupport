@@ -30,6 +30,7 @@ const EditLetterPad = ({ editLetter, setEditLetter, data, fetchData }) => {
   const [fontSize, setFontSize] = useState(data.fontSize || "16px");
   const [textAlign, setTextAlign] = useState(data.textAlign || "left");
   const [textarea, setTextArea] = useState(data.textarea || "");
+  const [date,setDate] = useState(data.date || "");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,6 +40,7 @@ const EditLetterPad = ({ editLetter, setEditLetter, data, fetchData }) => {
       fontSize,
       textAlign,
       textarea,
+      date,
       id: data.id,
     };
   
@@ -143,6 +145,20 @@ const EditLetterPad = ({ editLetter, setEditLetter, data, fetchData }) => {
                   textAlign: textAlign,
                 }}
               />
+              <label
+                      htmlFor="date"
+                      className="text-gray-700 font-bold mb-2 ml-2"
+                    >
+                      Date
+                    </label>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      className="input"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                    />
 
               <button
                 type="submit"

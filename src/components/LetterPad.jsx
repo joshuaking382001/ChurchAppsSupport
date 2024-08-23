@@ -7,6 +7,12 @@ const LetterPad = () => {
   const [data, setData] = useState({});
   const navigate=useNavigate()
 
+  const formatDateForDisplay = (dateString) => {
+    if (!dateString) return ""; // Handle empty or undefined date
+    const [year, month, day] = dateString.split("-");
+    return `${day}-${month}-${year}`;
+  };
+
   const useParams = () => {
     const location = useLocation();
     const pathname = location.pathname;
@@ -75,18 +81,23 @@ const LetterPad = () => {
         </div>
         <div class="let">
           <br />
-          <h3 style={{ color: "#5D3FD3", fontWeight: "bold" }}>
+          <h3 class="float-right" style={{ color: "#5D3FD3", fontWeight: "bold" }}>
             Rev. Fr. A. Williams
           </h3>
           <br />
-          <p class="float-right">Parish Priest</p><br/> <br/>
-          <p class="float-right">9626639044</p>
-          <br />
+          <p class="float-right">Parish Priest</p><br/>
+          <p class="float-right">9626639044</p><br/><br/>
+          <label className="text-black">Date</label>
+            <input
+              disabled
+              className="text-black border-none border-black"
+              type="text"
+              value={formatDateForDisplay(data.date)} />
         </div>
         <div
           style={{
             whiteSpace: 'pre-wrap',
-            marginTop: "8%",
+            marginTop: "16%",
             padding: "17px",
             fontStyle: data.fontStyle,
             fontWeight: data.fontWeight,

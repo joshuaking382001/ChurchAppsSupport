@@ -10,7 +10,7 @@ import TabPanel from '@mui/joy/TabPanel';
 // model
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import img from "../app/img/mform.png";
+import img from "../app/img/mform.jpg";
 import { Navigate, useNavigate } from "react-router-dom";
 // import { useRouter } from "next/navigation";
 
